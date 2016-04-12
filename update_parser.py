@@ -24,7 +24,7 @@ else:
 
 today = date.today()
 iso_today = today.isocalendar()
-week = '_'.join( [ 'componc_updates/week', str( iso_today[1] ), str( iso_today[0] ) ]) + '.txt'
+week = '_'.join( [ 'updates/week', str( iso_today[1] ), str( iso_today[0] ) ]) + '.txt'
 fh = open( week, 'a' )
 fh.write( "\n" + sender + ":\n" )
 for line in body.splitlines():
