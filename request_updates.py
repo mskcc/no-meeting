@@ -2,51 +2,46 @@
 
 import smtplib
 
-from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
-my_addy = "kandoth@cbio.mskcc.org"
-your_addy = "harrisc2@mskcc.org"
+# For now, we'll just hardcode the sender and list of recipients
+from_addy = 'Cyriac Kandoth <kandoth@cbio.mskcc.org>'
+member_list = '/home/kandoth/src/weekly-update/subscribers.txt'
+to_addys = {}
+with open( member_list ) as fh:
+    to_addys = dict( x.rstrip("\n>").split( " <", 1 ) for x in fh )
 
-# Create message container - the correct MIME type is multipart/alternative.
-msg = MIMEMultipart( 'alternative' )
-msg['Subject'] = "Weekly CompOnc Update"
-msg['From'] = my_addy
-msg['To'] = your_addy
+# Create the body of the plain-text message to request updates from people
+email_body = """
+Hope your week was good. Would you like to share with other CompOnc folks, what you've been up to,
+and the issues you're troubleshooting? So I can automatically parse your reply, use the following
+format to list as many items as you want to share with your colleagues:
 
-# Create the body of the message (a plain-text and an HTML version).
-text = """
-Hi buddy ol pal! Hope your week was good. Would you like to share with other CompOnc folks, what you've been up to?
-So I can parse your reply properly, use the following format:
-- Accomplishments\n+ Upcoming tasks\n* Bottlenecks
-"""
-html = """
-<html>
-    <head></head>
-    <body>
-    <p>Hi buddy ol pal! Hope your week was good. Would you like to share with other CompOnc folks, what you've been up to?</p>
-    <p>So I can parse your reply properly, use the following format:</p>
-    <p>
-        - Accomplishments<br>
-        + Upcoming tasks<br>
-        * Bottlenecks<br>
-    </p>
-    </body>
-</html>
+- An article, link, or a new tool worth sharing
+- A completed task, that you're super proud of, or glad to be done with
++ A task or topic you'll be working on next week
+* An issue you're troubleshooting and could use help with
+
+A script monitoring my inbox will parse your list, merge it with others, and on Saturday night,
+everyone will get one consolidated email with everyone's lists. No worries if you don't want to
+share anything this week. Wait another week or two if you feel you'll have more to report. Send me
+a list anytime with "Weekly CompOnc Update" in the Subject, to save it for the next weekly email.
+
+~Cyriac
 """
 
-# Record the MIME types of both parts - text/plain and text/html.
-part1 = MIMEText( text, 'plain' )
-part2 = MIMEText( html, 'html' )
+for name, to_addy in to_addys.iteritems():
+    # Pull out the first name so we can say hi
+    first_name = name.split()[0]
+    text = "Hi " + first_name + ",\n" + email_body;
 
-# Attach parts into message container. According to RFC 2046, the last part of a multipart message,
-# in this case the HTML message, is best and preferred.
-msg.attach( part1 )
-msg.attach( part2 )
+    # Create message container with MIME type text/plain
+    msg = MIMEText( text, 'plain' )
+    msg['Subject'] = "Weekly CompOnc Update"
+    msg['From'] = from_addy
+    msg['To'] = name + "<" + to_addy + ">"
 
-# Send the message via local SMTP server.
-smtp_srv = smtplib.SMTP( 'localhost' )
-# sendmail function takes 3 arguments: sender's address, recipient's address
-# and message to send - here it is sent as one string.
-smtp_srv.sendmail( my_addy, your_addy, msg.as_string())
-smtp_srv.quit()
+    # Send the message via the local SMTP server
+    smtp_svc = smtplib.SMTP( 'localhost' )
+    smtp_svc.sendmail( from_addy, to_addy, msg.as_string())
+    smtp_svc.quit()
