@@ -8,9 +8,14 @@ from datetime import date
 home_dir = expanduser( "~" )
 mail = email.message_from_file( sys.stdin )
 sender = mail['from']
-body = ""
+
+# Do some cleanup on the sender's name and email
+m = re.match( '^"?([^,]*),\s+([^\/]*)/.*"?\s+(<\S+>)$', sender )
+if m:
+    sender = ' '.join( m.group( 2, 1, 3 ))
 
 # For multipart emails, we need to extract the plain text part
+body = ""
 if mail.is_multipart():
     for part in mail.walk():
         ctype = part.get_content_type()
@@ -36,6 +41,8 @@ for line in body.splitlines():
         # Stop parsing the file if we reached the original message
         if re.match( '-----Original Message-----', line ):
             break
-        # Use regexes to cleanup whitespace
+        # Cleanup whitespace
         line = re.sub( '^(-|\+|\*)\s*(\S.*\S)\s*$', '\g<1> \g<2>', line )
+        # Remove embedded links
+        line = re.sub( ' <http\S+>', '', line )
         fh.write( line + "\n" )
