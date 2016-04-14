@@ -1,4 +1,1 @@
 Cyriac Kandoth <ckandoth@gmail.com>
-Chris Harris <harrisc2@mskcc.org>
-Matt Chang <changmt@cbio.mskcc.org>
-Barry Taylor <taylorb@mskcc.org>

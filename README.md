@@ -9,7 +9,7 @@ To install, put these in your `$HOME/src/no-meeting`:
 + A task or topic you'll be working on next week
 * An issue you're troubleshooting and could use help with
 ```
-- `parse_update.py` parses emails piped into it, and stores them into into weekly text files.
+- `parse_update.py` parses emails piped into it, and stores them into weekly text files.
 - `send_updates.py` reformats updates like below, and sends it around to the same folks.
 ![sampler](/sampler.png)
 
