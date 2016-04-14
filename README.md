@@ -1,14 +1,12 @@
 ## weekly-update
-- `request_updates.py` sends emails to a list of folks requesting updates in the following format:
-```
-- Accomplishment
-+ Upcoming task
-* Bottleneck
-```
-- `parse_update.py` parses out updates from emails piped into it by procmail, and appends them to a weekly text file
-- `send_updates.py` sends the weekly text file to a mailing list
 
-The following files are set up at the `cbio.mskcc.org` mail server for user `kandoth`.
+To install, put these scripts 
+- `subscribers.txt` lists all the folks that will receive reminders to send updates
+- `request_updates.py` sends email reminders to that list of folks updates
+- `parse_update.py` parses emails piped into it by procmail, and appends them to a weekly text file
+- `send_updates.py` sends the weekly text file to a mailing list or the same subscribers
+
+The following files are set up at the `cbio.mskcc.org` SMTP server for user `kandoth`.
 
 ### ~/.forward
 ```
@@ -49,6 +47,6 @@ Every email with the subject line `Weekly CompOnc Update` will be piped into `pa
 ### crontab -e
 ```
 0 16 * * 5 /usr/bin/env python $HOME/src/weekly-update/request_updates.py
-55 23 * * 6 /usr/bin/env python $HOME/src/weekly-update/send_updates.py
+0 21 * * 6 /usr/bin/env python $HOME/src/weekly-update/send_updates.py
 ```
-Runs `request_updates.py` every Friday at 4p to remind folks to send back updates
+At 4p every Friday, remind folks to send updates. And 9p on Saturdays, send out accumulated updates

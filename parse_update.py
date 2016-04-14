@@ -5,6 +5,7 @@ import sys, re, email
 from os.path import expanduser
 from datetime import date
 
+home_dir = expanduser( "~" )
 mail = email.message_from_file( sys.stdin )
 sender = mail['from']
 body = ""
@@ -26,11 +27,15 @@ else:
 # Create/append a file named after the current week in the year
 iso_today = date.today().isocalendar()
 [ iso_week, iso_year ] = [ str( iso_today[1] ), str( iso_today[0] )]
-file_name = expanduser( "~" ) + '_'.join( [ '/Maildir/updates/week', iso_week, iso_year ]) + '.txt'
+file_name = home_dir + '_'.join( [ '/Maildir/updates/week', iso_week, iso_year ]) + '.txt'
+
 fh = open( file_name, 'a' )
 fh.write( "\n" + sender + ":\n" )
 for line in body.splitlines():
     if re.match( '-|\+|\*', line ):
+        # Stop parsing the file if we reached the original message
+        if re.match( '-----Original Message-----', line ):
+            break
         # Use regexes to cleanup whitespace
         line = re.sub( '^(-|\+|\*)\s*(\S.*\S)\s*$', '\g<1> \g<2>', line )
         fh.write( line + "\n" )
