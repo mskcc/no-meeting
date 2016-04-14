@@ -50,8 +50,10 @@ for line in email_plain.splitlines():
         line = "<li style=\"color:blue;list-style-type:circle;font-size:16px;\"><span style=\"color:black;font-size:13px;\">" + m.group( 2 ) + "</span></li>\n"
     elif m and m.group( 1 ) is '*':
         line = "<li style=\"color:red;list-style-type:disc;font-size:16px;\"><span style=\"color:black;font-size:13px;\">" + m.group( 2 ) + "</span></li>\n"
+    elif re.match( '\S+', line ):
+        line = "<span style=\"font-weight:bold;font-size:13px;\">" + line + "</span><br>\n"
     else:
-        line = "<span style=\"font-weight:bold;font-size:13px;\">" + line + "</span><br>"
+        line = "<br>\n"
     email_html += line
 
 email_html += """

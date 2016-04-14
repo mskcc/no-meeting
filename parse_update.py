@@ -35,7 +35,7 @@ iso_today = date.today().isocalendar()
 file_name = home_dir + '_'.join( [ '/Maildir/updates/week', iso_week, iso_year ]) + '.txt'
 
 fh = open( file_name, 'a' )
-fh.write( "\n" + sender + ":\n" )
+fh.write( sender + ":\n" )
 for line in body.splitlines():
     if re.match( '-|\+|\*', line ):
         # Stop parsing the file if we reached the original message
@@ -46,3 +46,4 @@ for line in body.splitlines():
         # Remove embedded links
         line = re.sub( ' <http\S+>', '', line )
         fh.write( line + "\n" )
+fh.write( "\n" )
