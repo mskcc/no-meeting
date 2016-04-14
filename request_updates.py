@@ -7,7 +7,7 @@ from email.mime.text import MIMEText
 # For now, we'll just hardcode the sender and list of recipients
 from_addy = 'Cyriac Kandoth <kandoth@cbio.mskcc.org>'
 home_dir = expanduser( "~" )
-member_list = home_dir + '/src/weekly-update/subscribers.txt'
+member_list = home_dir + '/src/no-meeting/subscribers.txt'
 to_addys = {}
 with open( member_list ) as fh:
     to_addys = dict( x.rstrip("\n>").split( " <", 1 ) for x in fh )
@@ -23,10 +23,10 @@ format to list as many items as you want to share with your colleagues:
 + A task or topic you'll be working on next week
 * An issue you're troubleshooting and could use help with
 
-A script monitoring my inbox will parse your list, merge it with others, and on 9pm on Saturday,
+A script monitoring my inbox will parse your list, merge it with others, and on 9am each Saturday,
 everyone will get one consolidated email with everyone's lists. No worries if you don't want to
 share anything this week. Wait another week or two if you feel you'll have more to report. Send me
-a list anytime with "Weekly CompOnc Update" in the Subject, to append it to the next weekly email.
+a list anytime with the Subject "Weekly CompOnc Update", to append it to the next Saturday email.
 
 ~Cyriac
 """

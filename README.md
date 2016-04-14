@@ -1,21 +1,28 @@
-## weekly-update
+## no-meeting
 
-To install, put these in your `$HOME/src/weekly-update`:
+To install, put these in your `$HOME/src/no-meeting`:
 - `subscribers.txt` lists all the folks that will receive reminders to send updates
-- `request_updates.py` sends email reminders to that list of folks updates
-- `parse_update.py` parses emails piped into it by procmail, and appends them to a weekly text file
-- `send_updates.py` sends the weekly text file to a mailing list or the same subscribers
+- `request_updates.py` sends email reminders to that list of folks, to reply in this format:
+```text
+- An article, link, or a new tool worth sharing
+- A completed task, that you're super proud of, or glad to be done with
++ A task or topic you'll be working on next week
+* An issue you're troubleshooting and could use help with
+```
+- `parse_update.py` parses emails piped into it, and stores them into into weekly text files.
+- `send_updates.py` reformats updates like below, and sends it around to the same folks.
+![sampler](/sampler.png)
 
 The following files are set up at the `cbio.mskcc.org` SMTP server. Just replace `kandoth` with your username.
 
 ### ~/.forward
-```
+```bash
 "|IFS=' ' && exec /usr/bin/procmail || exit 75 #kandoth"
 ```
 Ensures that procmail is run for every email received
 
 ### ~/.procmailrc
-```
+```bash
 # Make sure we're not using any C-based shells. Procmail does weird things on those
 SHELL=/bin/sh
 
@@ -39,14 +46,14 @@ VERBOSE=off
     updates/raw
 
     :0:
-    | /usr/bin/env python $HOME/src/weekly-update/parse_update.py
+    | /usr/bin/env python $HOME/src/no-meeting/parse_update.py
 }
 ```
 Every email with the subject line `Weekly CompOnc Update` will be piped into `parse_update.py`, and a copy of the original will be kept under the IMAP folder updates/raw
 
 ### crontab -e
 ```
-0 16 * * 5 /usr/bin/env python $HOME/src/weekly-update/request_updates.py
-0 21 * * 6 /usr/bin/env python $HOME/src/weekly-update/send_updates.py
+0 9 * * 5 /usr/bin/env python $HOME/src/no-meeting/request_updates.py
+0 9 * * 6 /usr/bin/env python $HOME/src/no-meeting/send_updates.py
 ```
-At 4p every Friday, remind folks to send updates. And 9p on Saturdays, send out accumulated updates
+At 9a on Fridays, remind folks to send updates. At 9a on Saturdays, send around accumulated updates

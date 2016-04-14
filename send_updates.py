@@ -11,7 +11,7 @@ from cgi import escape
 # For now, we'll just hardcode the sender and list of recipients
 from_addy = 'Cyriac Kandoth <kandoth@cbio.mskcc.org>'
 home_dir = expanduser( "~" )
-member_list = home_dir + '/src/weekly-update/subscribers.txt'
+member_list = home_dir + '/src/no-meeting/subscribers.txt'
 to_addys = {}
 with open( member_list ) as fh:
     to_addys = dict( x.rstrip("\n>").split( " <", 1 ) for x in fh )
@@ -45,11 +45,11 @@ for line in email_plain.splitlines():
     line = escape( line, True )
     m = re.match( '^(-|\+|\*)\s*(\S.*\S)\s*$', line )
     if m and m.group( 1 ) is '-':
-        line = "<li class=\"done\" style=\"list-style-type:disc;font-size:16px;\"><span style=\"color:black;font-size:13px;\">" + m.group( 2 ) + "</span></li>\n"
+        line = "<li style=\"color:blue;list-style-type:disc;font-size:16px;\"><span style=\"color:black;font-size:13px;\">" + m.group( 2 ) + "</span></li>\n"
     elif m and m.group( 1 ) is '+':
-        line = "<li class=\"todo\" style=\"list-style-type:circle;font-size:16px;\"><span style=\"color:black;font-size:13px;\">" + m.group( 2 ) + "</span></li>\n"
+        line = "<li style=\"color:blue;list-style-type:circle;font-size:16px;\"><span style=\"color:black;font-size:13px;\">" + m.group( 2 ) + "</span></li>\n"
     elif m and m.group( 1 ) is '*':
-        line = "<li class=\"help\" style=\"list-style-type:disc;font-size:16px;\"><span style=\"color:black;font-size:13px;\">" + m.group( 2 ) + "</span></li>\n"
+        line = "<li style=\"color:red;list-style-type:disc;font-size:16px;\"><span style=\"color:black;font-size:13px;\">" + m.group( 2 ) + "</span></li>\n"
     else:
         line = "<span style=\"font-weight:bold;font-size:13px;\">" + line + "</span><br>"
     email_html += line
@@ -70,8 +70,8 @@ for name, to_addy in to_addys.iteritems():
     msg['From'] = from_addy
     msg['To'] = name + "<" + to_addy + ">"
 
-    # Attach parts into message container. According to RFC 2046, the last part of a multipart message,
-    # in this case the HTML message, is best and preferred
+    # Attach parts into message container. According to RFC 2046, the last part of a multipart
+    # message, in this case the HTML message, is best and preferred
     msg.attach( part1 )
     msg.attach( part2 )
 
