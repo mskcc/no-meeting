@@ -45,11 +45,11 @@ for line in email_plain.splitlines():
     line = escape( line, True )
     m = re.match( '^(-|\+|\*)\s*(\S.*\S)\s*$', line )
     if m and m.group( 1 ) is '-':
-        line = "<li class=\"done\" style=\"color:blue;list-style-type:disc;font-size:16px;\"><span style=\"color:black;font-size:13px;\">" + m.group( 2 ) + "</span></li>\n"
+        line = "<li class=\"done\" style=\"list-style-type:disc;font-size:16px;\"><span style=\"color:black;font-size:13px;\">" + m.group( 2 ) + "</span></li>\n"
     elif m and m.group( 1 ) is '+':
-        line = "<li class=\"todo\" style=\"color:blue;list-style-type:circle;font-size:16px;\"><span style=\"color:black;font-size:13px;\">" + m.group( 2 ) + "</span></li>\n"
+        line = "<li class=\"todo\" style=\"list-style-type:circle;font-size:16px;\"><span style=\"color:black;font-size:13px;\">" + m.group( 2 ) + "</span></li>\n"
     elif m and m.group( 1 ) is '*':
-        line = "<li class=\"help\" style=\"color:red;list-style-type:disc;font-size:16px;\"><span style=\"color:black;font-size:13px;\">" + m.group( 2 ) + "</span></li>\n"
+        line = "<li class=\"help\" style=\"list-style-type:disc;font-size:16px;\"><span style=\"color:black;font-size:13px;\">" + m.group( 2 ) + "</span></li>\n"
     else:
         line = "<span style=\"font-weight:bold;font-size:13px;\">" + line + "</span><br>"
     email_html += line
