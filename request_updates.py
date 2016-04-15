@@ -2,6 +2,7 @@
 
 import smtplib
 
+from os.path import expanduser
 from email.mime.text import MIMEText
 
 # For now, we'll just hardcode the sender and list of recipients
