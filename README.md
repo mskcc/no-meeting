@@ -6,7 +6,7 @@ To install, put these in your `$HOME/src/no-meeting`:
 ```text
 - An article, link, or a new tool worth sharing
 - A completed task, that you're super proud of, or glad to be done with
-+ A task or topic you'll be working on next week
++ A task or idea you'll be working on this week
 * An issue you're troubleshooting and could use help with
 ```
 - `parse_update.py` parses emails piped into it, and stores them into weekly text files.
