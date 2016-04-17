@@ -15,19 +15,20 @@ with open( member_list ) as fh:
 
 # Create the body of the plain-text message to request updates from people
 email_body = """
-Hope your week was good. Would you like to share with other CompOnc folks, what you've been up to,
-and the issues you're troubleshooting? So I can automatically parse your reply, use the following
-format to list as many items as you want to share with your colleagues:
+Hope last week was good. Would you like to share with your colleagues, what you've been up to, and
+any issues you're troubleshooting? So we can automatically parse your reply, use the following
+format to list as many items as you want to share:
 
 - An article, link, or a new tool worth sharing
 - A completed task, that you're super proud of, or glad to be done with
-+ A task or topic you'll be working on next week
++ A task or idea you'll be working on this week
 * An issue you're troubleshooting and could use help with
 
-A script monitoring my inbox will parse your list, merge it with others, and on 9am each Saturday,
-everyone will get one consolidated email with everyone's lists. No worries if you don't want to
-share anything this week. Wait another week or two if you feel you'll have more to report. Send me
-a list anytime with the Subject "Weekly CompOnc Update", to append it to the next Saturday email.
+A script monitoring my inbox will parse your list, merge it with others, and on 2pm each Tuesday
+(before the 3p Schultz/Taylor lab meeting), everyone will get one consolidated email with
+everyone's lists. No worries if you don't want to share anything this week. Wait another week or
+two if you feel you'll have more to report. Send me a list in an email anytime with the Subject
+"Share updates and issues with colleagues", to automatically append it to the next Tuesday email.
 
 ~Cyriac
 """
@@ -39,7 +40,7 @@ for name, to_addy in to_addys.iteritems():
 
     # Create message container with MIME type text/plain
     msg = MIMEText( email_plain, 'plain' )
-    msg['Subject'] = "Weekly CompOnc Update"
+    msg['Subject'] = "Share updates and issues with colleagues"
     msg['From'] = from_addy
     msg['To'] = name + "<" + to_addy + ">"
 

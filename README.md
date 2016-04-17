@@ -40,7 +40,7 @@ VERBOSE=off
 
 # Send update emails into a subfolder, and pipe them into a script that parses & accumulates them
 :0: fw
-* ^Subject.*(Weekly CompOnc Update)
+* ^Subject.*(Share updates and issues with colleagues)
 {
     :0 c
     updates/raw
@@ -49,11 +49,11 @@ VERBOSE=off
     | /usr/bin/env python $HOME/src/no-meeting/parse_update.py
 }
 ```
-Every email with the subject line `Weekly CompOnc Update` will be piped into `parse_update.py`, and a copy of the original will be kept under the IMAP folder updates/raw
+Every email with the subject line `Share updates and issues with colleagues` will be piped into `parse_update.py`, and a copy of the original will be kept under the IMAP folder updates/raw
 
 ### crontab -e
 ```
-0 9 * * 5 /usr/bin/env python $HOME/src/no-meeting/request_updates.py
-0 9 * * 6 /usr/bin/env python $HOME/src/no-meeting/send_updates.py
+0 09 * * 1 /usr/bin/env python $HOME/src/no-meeting/request_updates.py
+0 14 * * 2 /usr/bin/env python $HOME/src/no-meeting/send_updates.py
 ```
-At 9a on Fridays, remind folks to send updates. At 9a on Saturdays, send around accumulated updates
+At 9a on Mondays, remind folks to send updates. At 2p on Tuesdays, send around accumulated updates
